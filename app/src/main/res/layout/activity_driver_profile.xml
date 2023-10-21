@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DriverProfileActivity">
+
+    <!-- Imaginea de Profil a Șoferului -->
+    <ImageView
+        android:id="@+id/driverProfileImage"
+        android:layout_width="128dp"
+        android:layout_height="199dp"
+        android:src="@drawable/driver_image"
+        android:scaleType="centerCrop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+    <!-- Numele Șoferului -->
+    <TextView
+        android:id="@+id/driverNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nume Șofer"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/driverProfileImage"
+        android:layout_marginTop="16dp" />
+
+    <!-- Detalii despre Vehicul -->
+    <TextView
+        android:id="@+id/vehicleDetailsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detalii despre Vehicul"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/driverNameTextView"
+        android:layout_marginTop="16dp" />
+
+    <!-- Buton de Editare Profil al Șoferului -->
+    <Button
+        android:id="@+id/editDriverProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editează Profilul"
+        android:layout_below="@id/vehicleDetailsTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
