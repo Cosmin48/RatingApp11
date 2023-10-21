@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "13150951421",
+    "project_id": "ratingapp-10086",
+    "storage_bucket": "ratingapp-10086.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13150951421:android:f89f405d5391cd5c5e6b94",
+        "android_client_info": {
+          "package_name": "com.firstapp.ratingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcuEGLfULS73C3aiZp_sUUY5NTihaCWnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
