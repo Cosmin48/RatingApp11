@@ -21,7 +21,7 @@ import com.google.firebase.ktx.Firebase;
 
 public class CustomerLoginActivity extends AppCompatActivity {
     private EditText mEmail, mPassword;
-    private Button mLogin, mRegistration;
+    private Button mLogin, mRegistration;//test
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
