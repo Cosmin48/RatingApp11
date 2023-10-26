@@ -14,8 +14,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class CustomerLoginActivity extends AppCompatActivity {
     private EditText mEmail, mPassword;
@@ -53,8 +51,7 @@ public class CustomerLoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         String user_id = mAuth.getCurrentUser().getUid();
-                                        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
-                                        current_user_db.setValue(true);
+                                        // Adăugați aici cod pentru stocarea datelor utilizatorului în baza de date Firebase
                                         Toast.makeText(CustomerLoginActivity.this, "Înregistrare cu succes", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(CustomerLoginActivity.this, "Eroare la înregistrare: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -79,7 +76,8 @@ public class CustomerLoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Intent intent = new Intent(CustomerLoginActivity.this, MapActivity.class);
+                                        // Redirecționează utilizatorul către UserProfileActivity după autentificare
+                                        Intent intent = new Intent(CustomerLoginActivity.this, UserProfileActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Toast.makeText(CustomerLoginActivity.this, "Eroare la autentificare: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

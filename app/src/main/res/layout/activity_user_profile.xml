@@ -1,47 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserProfileActivity"
-    tools:ignore="ExtraText">
+    android:padding="16dp">
 
-    <!-- Imaginea de Profil -->
-    <!-- Aici puteți specifica o imagine de profil sau un placeholder -->
-
-    <!-- Numele Utilizatorului -->
-
+    <!-- Imaginea de profil -->
     <ImageView
         android:id="@+id/profileImage"
-        android:layout_width="128dp"
-        android:layout_height="199dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:src="@drawable/imagine_utilizator"
         android:layout_centerHorizontal="true" />
 
+    <!-- Buton pentru încărcarea imaginii de profil -->
+    <Button
+        android:id="@+id/uploadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Încarcă Imaginea de Profil" />
 
+    <!-- Câmpul pentru nume -->
     <EditText
         android:id="@+id/editUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nume Utilizator"
-        android:layout_below="@id/profileImage"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_below="@id/uploadImageButton"
+        android:layout_marginTop="16dp" />
 
-    <!-- Adresa de Email -->
+    <!-- Câmpul pentru adresa de email -->
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Adresa de Email"
         android:layout_below="@id/editUsername"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginTop="8dp" />
+
+    <!-- Câmp pentru datele de contact (poate fi un EditText pentru numărul de telefon) -->
+    <EditText
+        android:id="@+id/editContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Număr de Telefon"
+        android:layout_below="@id/editEmail"
+        android:layout_marginTop="8dp" />
 
     <!-- Buton de Salvare -->
     <Button
@@ -49,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Salvează Profilul"
-        android:layout_below="@id/editEmail"
+        android:layout_below="@id/editContact"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 

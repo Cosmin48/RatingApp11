@@ -1,50 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DriverProfileActivity">
+    android:padding="16dp">
 
-    <!-- Imaginea de Profil a Șoferului -->
+    <!-- Imaginea de profil a șoferului -->
     <ImageView
         android:id="@+id/driverProfileImage"
         android:layout_width="128dp"
         android:layout_height="199dp"
-        android:src="@drawable/driver_image"
         android:scaleType="centerCrop"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp" />
+        android:src="@drawable/driver_image"
+        android:layout_centerHorizontal="true" />
 
-    <!-- Numele Șoferului -->
-    <TextView
-        android:id="@+id/driverNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nume Șofer"
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/driverProfileImage"
-        android:layout_marginTop="16dp" />
-
-    <!-- Detalii despre Vehicul -->
-    <TextView
-        android:id="@+id/vehicleDetailsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Detalii despre Vehicul"
-        android:textSize="16sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/driverNameTextView"
-        android:layout_marginTop="16dp" />
-
-    <!-- Buton de Editare Profil al Șoferului -->
+    <!-- Buton pentru încărcarea imaginii de profil a șoferului (opțional) -->
     <Button
-        android:id="@+id/editDriverProfileButton"
+        android:id="@+id/uploadDriverImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editează Profilul"
-        android:layout_below="@id/vehicleDetailsTextView"
+        android:layout_below="@id/driverProfileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Încarcă Imaginea de Profil a Șoferului" />
+
+    <!-- Câmpul pentru nume șofer -->
+    <EditText
+        android:id="@+id/editDriverName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nume Șofer"
+        android:layout_below="@id/uploadDriverImage"
+        android:layout_marginTop="16dp" />
+
+    <!-- Câmpul pentru adresa de email a șoferului -->
+    <EditText
+        android:id="@+id/editDriverEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Adresa de Email a Șoferului"
+        android:layout_below="@id/editDriverName"
+        android:layout_marginTop="8dp" />
+
+    <!-- Câmp pentru numărul de telefon al șoferului -->
+    <EditText
+        android:id="@+id/editDriverContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Număr de Telefon al Șoferului"
+        android:layout_below="@id/editDriverEmail"
+        android:layout_marginTop="8dp" />
+
+    <!-- Câmp pentru detalii vehicul șofer -->
+    <EditText
+        android:id="@+id/editVehicleDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Detalii Vehicul (ex: Model, An, Culoare)"
+        android:layout_below="@id/editDriverContact"
+        android:layout_marginTop="8dp" />
+
+    <!-- Câmp pentru introducerea numărului de înmatriculare -->
+    <EditText
+        android:id="@+id/editLicensePlate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Număr de Înmatriculare"
+        android:layout_below="@id/editVehicleDetails"
+        android:layout_marginTop="8dp" />
+
+    <!-- Buton de Salvare profil șofer -->
+    <Button
+        android:id="@+id/saveDriverProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvează Profilul Șoferului"
+        android:layout_below="@id/editLicensePlate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
