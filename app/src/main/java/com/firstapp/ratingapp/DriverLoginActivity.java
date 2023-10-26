@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;  // Importul corect pentru TextUtils
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -80,7 +80,7 @@ public class DriverLoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Intent intent = new Intent(DriverLoginActivity.this, DriverMapActivity.class);
+                                        Intent intent = new Intent(DriverLoginActivity.this, DriverProfileActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Toast.makeText(DriverLoginActivity.this, "Eroare la autentificare: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

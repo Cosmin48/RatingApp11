@@ -1,81 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    tools:context=".DriverProfileActivity">
 
-    <!-- Imaginea de profil a șoferului -->
-    <ImageView
-        android:id="@+id/driverProfileImage"
-        android:layout_width="128dp"
-        android:layout_height="199dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/driver_image"
-        android:layout_centerHorizontal="true" />
-
-    <!-- Buton pentru încărcarea imaginii de profil a șoferului (opțional) -->
-    <Button
-        android:id="@+id/uploadDriverImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/driverProfileImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Încarcă Imaginea de Profil a Șoferului" />
-
-    <!-- Câmpul pentru nume șofer -->
     <EditText
         android:id="@+id/editDriverName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nume Șofer"
-        android:layout_below="@id/uploadDriverImage"
+        android:hint="Nume șofer"
         android:layout_marginTop="16dp" />
 
-    <!-- Câmpul pentru adresa de email a șoferului -->
     <EditText
         android:id="@+id/editDriverEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Adresa de Email a Șoferului"
+        android:hint="Email șofer"
         android:layout_below="@id/editDriverName"
         android:layout_marginTop="8dp" />
 
-    <!-- Câmp pentru numărul de telefon al șoferului -->
     <EditText
         android:id="@+id/editDriverContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Număr de Telefon al Șoferului"
+        android:hint="Număr de telefon"
         android:layout_below="@id/editDriverEmail"
         android:layout_marginTop="8dp" />
 
-    <!-- Câmp pentru detalii vehicul șofer -->
     <EditText
         android:id="@+id/editVehicleDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Detalii Vehicul (ex: Model, An, Culoare)"
+        android:hint="Detalii vehicul"
         android:layout_below="@id/editDriverContact"
         android:layout_marginTop="8dp" />
 
-    <!-- Câmp pentru introducerea numărului de înmatriculare -->
     <EditText
         android:id="@+id/editLicensePlate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Număr de Înmatriculare"
+        android:hint="Număr înmatriculare"
         android:layout_below="@id/editVehicleDetails"
         android:layout_marginTop="8dp" />
 
-    <!-- Buton de Salvare profil șofer -->
     <Button
         android:id="@+id/saveDriverProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvează Profilul Șoferului"
-        android:layout_below="@id/editLicensePlate"
+        android:text="Salvează Profilul"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/editLicensePlate"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/viewMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vizualizează Harta"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/saveDriverProfileButton"
+        android:layout_marginTop="16dp" />
+
+
 
 </RelativeLayout>
