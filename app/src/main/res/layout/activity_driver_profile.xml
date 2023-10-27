@@ -56,14 +56,20 @@
         android:layout_marginTop="16dp" />
 
     <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editare Profil"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/saveDriverProfileButton"
+        android:layout_marginTop="16dp" />
+
+    <Button
         android:id="@+id/viewMapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Vizualizează Harta"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/saveDriverProfileButton"
+        android:layout_below="@id/editProfileButton"
         android:layout_marginTop="16dp" />
-
-
-
 </RelativeLayout>

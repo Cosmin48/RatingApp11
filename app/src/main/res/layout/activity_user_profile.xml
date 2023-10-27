@@ -7,8 +7,8 @@
     <!-- Imaginea de profil -->
     <ImageView
         android:id="@+id/profileImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="128dp"
+        android:layout_height="199dp"
         android:scaleType="centerCrop"
         android:src="@drawable/imagine_utilizator"
         android:layout_centerHorizontal="true" />
@@ -57,6 +57,16 @@
         android:layout_height="wrap_content"
         android:text="Salvează Profilul"
         android:layout_below="@id/editContact"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Buton pentru Editare -->
+    <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editare Profil"
+        android:layout_below="@id/saveButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 

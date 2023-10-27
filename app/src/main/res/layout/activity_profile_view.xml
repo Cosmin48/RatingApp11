@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nume:"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Adresă de email:"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/textViewContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Număr de contact:"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/textViewVehicleDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Detalii vehicul:"
+        android:padding="16dp" />
+
+    <TextView
+        android:id="@+id/textViewLicensePlate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Număr inmatriculare:"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/editProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editează Profilul"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
