@@ -23,8 +23,10 @@ public class UserProfileActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editContact;
     private Button saveButton;
-    private Button editProfileButton; // Buton pentru editare profil
-    private boolean editMode = false; // Mod de editare, inițial dezactivat
+    private Button editProfileButton;
+    private Button selectDriverButton;
+    //private Button reviewDriverButton;
+    private boolean editMode = false;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseRef;
@@ -40,15 +42,15 @@ public class UserProfileActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editContact = findViewById(R.id.editContact);
         saveButton = findViewById(R.id.saveButton);
-        editProfileButton = findViewById(R.id.editProfileButton); // Inițializarea butonului pentru editare profil
+        editProfileButton = findViewById(R.id.editProfileButton);
+        selectDriverButton = findViewById(R.id.selectDriverButton);
+        //reviewDriverButton = findViewById(R.id.reviewDriverButton);
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(currentUserId);
 
-        // Verificăm dacă modul de editare este activat
         if (getIntent().hasExtra("editProfile") && getIntent().getBooleanExtra("editProfile", false)) {
-            // Mod de editare activat, dezactivăm câmpurile
             editUsername.setEnabled(false);
             editEmail.setEnabled(false);
             editContact.setEnabled(false);
@@ -57,12 +59,10 @@ public class UserProfileActivity extends AppCompatActivity {
             editMode = true;
         }
 
-        // Încărcăm profilul utilizatorului dacă există
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Profilul există, încărcăm datele în câmpuri
                     editUsername.setText(dataSnapshot.child("Nume").getValue(String.class));
                     editEmail.setText(dataSnapshot.child("Email").getValue(String.class));
                     editContact.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
@@ -78,7 +78,6 @@ public class UserProfileActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementarea salvării profilului (codul rămas neschimbat)
                 String username = editUsername.getText().toString().trim();
                 String email = editEmail.getText().toString().trim();
                 String contact = editContact.getText().toString().trim();
@@ -100,7 +99,6 @@ public class UserProfileActivity extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Activăm modul de editare, câmpurile devin editabile
                 editUsername.setEnabled(true);
                 editEmail.setEnabled(true);
                 editContact.setEnabled(true);
@@ -109,5 +107,22 @@ public class UserProfileActivity extends AppCompatActivity {
                 editMode = true;
             }
         });
+
+        selectDriverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserProfileActivity.this, SelectDriverActivity.class);
+                startActivity(intent);
+            }
+        });
+
+       // reviewDriverButton.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+          //  public void onClick(View v) {
+               // Intent intent = new Intent(UserProfileActivity.this, ReviewDriverActivity.class);
+                //startActivity(intent);
+          //  }
+       // });
+
     }
 }

@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewDetailsActivity">
+
+    <TextView
+        android:id="@+id/reviewerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reviewer: "
+        android:layout_below="@id/commentTextView"
+        android:layout_marginTop="16dp"
+        />
+
+    <TextView
+        android:id="@+id/ratingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: "
+        android:layout_below="@id/reviewerTextView"
+        android:layout_marginTop="16dp"
+        />
+
+    <TextView
+        android:id="@+id/commentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment: "
+        android:layout_below="@id/responseTextView"
+        android:layout_marginTop="16dp"
+        />
+
+    <TextView
+        android:id="@+id/responseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Driver Response: "
+        android:layout_below="@id/ratingTextView"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

@@ -25,6 +25,7 @@ public class DriverProfileActivity extends AppCompatActivity {
     private Button editProfileButton; // Buton pentru editare profil
     private boolean editMode = false; // Mod de editare, inițial dezactivat
     private Button viewMapButton; // Butonul pentru a deschide harta
+    private Button viewReviewsButton; // Buton pentru a vizualiza recenziile
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseRef;
@@ -43,6 +44,7 @@ public class DriverProfileActivity extends AppCompatActivity {
         saveDriverProfileButton = findViewById(R.id.saveDriverProfileButton);
         editProfileButton = findViewById(R.id.editProfileButton); // Inițializarea butonului pentru editare profil
         viewMapButton = findViewById(R.id.viewMapButton); // Inițializarea butonului pentru harta
+        viewReviewsButton = findViewById(R.id.viewReviewsButton); // Inițializarea butonului pentru recenzii
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -131,5 +133,14 @@ public class DriverProfileActivity extends AppCompatActivity {
             }
         });
 
+        viewReviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implementează aici codul pentru a deschide activitatea pentru vizualizarea recenziilor
+                // Exemplu:
+                Intent intent = new Intent(DriverProfileActivity.this, ReviewsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

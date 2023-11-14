@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewsActivity">
+
+    <!-- TextView pentru afișarea rating-ului mediu -->
+    <TextView
+
+        android:id="@+id/averageRatingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating mediu: "
+        android:layout_below="@id/reviewsTitle"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp" />
+
+
+    <!-- Titlu sau antet pentru activitatea de recenzii -->
+    <TextView
+        android:id="@+id/reviewsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recenzii"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp" />
+
+    <!-- RecyclerView pentru afișarea recenziilor -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reviewsTitle"
+        android:layout_marginTop="16dp" />
+
+    <!-- Câmp pentru introducerea răspunsului șoferului -->
+    <EditText
+        android:id="@+id/responseEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerView"
+        android:layout_marginTop="16dp"
+        android:hint="Răspuns șofer"
+        android:minHeight="48dp" />
+
+    <!-- Buton pentru trimiterea răspunsului -->
+    <Button
+        android:id="@+id/submitResponseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trimite Răspuns"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/responseEditText"
+        android:layout_marginTop="16dp" />
+
+    <!-- Adaugă TextView pentru afișarea răspunsului șoferului -->
+    <TextView
+        android:id="@+id/driverResponseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/submitResponseButton"
+        android:layout_marginTop="16dp"
+        android:text="Răspunsul șoferului: "
+        android:visibility="gone" /> <!-- Inițial ascuns -->
+
+
+</RelativeLayout>
