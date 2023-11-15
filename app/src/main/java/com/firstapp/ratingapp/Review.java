@@ -17,10 +17,10 @@ public class Review implements Parcelable {
 
     // Constructor pentru recenzie
     public Review(String reviewerId, String driverId, float rating, String comment) {
-        this.reviewerId = reviewerId;
+        this.comment = comment;
         this.driverId = driverId;
         this.rating = rating;
-        this.comment = comment;
+        this.reviewerId = reviewerId;
     }
 
     // Constructor pentru recenzie cu raspunsul soferului

@@ -29,14 +29,16 @@
         android:textSize="24sp" />
 
     <!-- RecyclerView pentru afișarea recenziilor -->
+
+    <!-- Câmp pentru introducerea răspunsului șoferului -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/reviewsTitle"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="2dp" />
 
-    <!-- Câmp pentru introducerea răspunsului șoferului -->
     <EditText
         android:id="@+id/responseEditText"
         android:layout_width="match_parent"

@@ -48,6 +48,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
     }
 
     @Override
+
     public void onBindViewHolder(@NonNull ReviewViewHolder holder, int position) {
         Review review = reviewList.get(position);
 
@@ -56,13 +57,16 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         holder.commentTextView.setText(review.getComment());
 
         // Adaugă driverResponse în TextView-ul corespunzător
-        if (review.getDriverResponse() != null && !review.getDriverResponse().isEmpty()) {
-            holder.driverResponseTextView.setVisibility(View.VISIBLE);
-            holder.driverResponseTextView.setText("Răspuns șofer: " + review.getDriverResponse());
-        } else {
-            holder.driverResponseTextView.setVisibility(View.GONE);
+        if (holder.driverResponseTextView != null) {
+            if (review.getDriverResponse() != null && !review.getDriverResponse().isEmpty()) {
+                holder.driverResponseTextView.setVisibility(View.VISIBLE);
+                holder.driverResponseTextView.setText("Răspuns șofer: " + review.getDriverResponse());
+            } else {
+                holder.driverResponseTextView.setVisibility(View.GONE);
+            }
         }
     }
+
 
     @Override
     public int getItemCount() {

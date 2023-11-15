@@ -22,14 +22,15 @@ public class DriverProfileActivity extends AppCompatActivity {
     private EditText editVehicleDetails;
     private EditText editLicensePlate;
     private Button saveDriverProfileButton;
-    private Button editProfileButton; // Buton pentru editare profil
-    private boolean editMode = false; // Mod de editare, inițial dezactivat
-    private Button viewMapButton; // Butonul pentru a deschide harta
-    private Button viewReviewsButton; // Buton pentru a vizualiza recenziile
+    private Button editProfileButton;
+    private Button viewMapButton;
+    private Button viewReviewsButton;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseRef;
     private String currentUserId;
+
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,38 +43,23 @@ public class DriverProfileActivity extends AppCompatActivity {
         editVehicleDetails = findViewById(R.id.editVehicleDetails);
         editLicensePlate = findViewById(R.id.editLicensePlate);
         saveDriverProfileButton = findViewById(R.id.saveDriverProfileButton);
-        editProfileButton = findViewById(R.id.editProfileButton); // Inițializarea butonului pentru editare profil
-        viewMapButton = findViewById(R.id.viewMapButton); // Inițializarea butonului pentru harta
-        viewReviewsButton = findViewById(R.id.viewReviewsButton); // Inițializarea butonului pentru recenzii
+        editProfileButton = findViewById(R.id.editProfileButton);
+        viewMapButton = findViewById(R.id.viewMapButton);
+        viewReviewsButton = findViewById(R.id.viewReviewsButton);
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(currentUserId);
 
-        // Verificăm dacă modul de editare este activat
         if (getIntent().hasExtra("editProfile") && getIntent().getBooleanExtra("editProfile", false)) {
-            // Mod de editare activat, dezactivăm câmpurile
-            editDriverName.setEnabled(false);
-            editDriverEmail.setEnabled(false);
-            editDriverContact.setEnabled(false);
-            editVehicleDetails.setEnabled(false);
-            editLicensePlate.setEnabled(false);
-            saveDriverProfileButton.setVisibility(View.GONE);
-            editProfileButton.setVisibility(View.VISIBLE);
-            editMode = true;
+            setEditMode(true);
         }
 
-        // Încărcăm profilul șoferului dacă există
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Profilul există, încărcăm datele în câmpuri
-                    editDriverName.setText(dataSnapshot.child("Nume").getValue(String.class));
-                    editDriverEmail.setText(dataSnapshot.child("Email").getValue(String.class));
-                    editDriverContact.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
-                    editVehicleDetails.setText(dataSnapshot.child("Detalii vehicul").getValue(String.class));
-                    editLicensePlate.setText(dataSnapshot.child("Numar inmatriculare").getValue(String.class));
+                    loadDriverProfile(dataSnapshot);
                 }
             }
 
@@ -86,61 +72,91 @@ public class DriverProfileActivity extends AppCompatActivity {
         saveDriverProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementarea salvării profilului (codul rămas neschimbat)
-                String driverName = editDriverName.getText().toString().trim();
-                String driverEmail = editDriverEmail.getText().toString().trim();
-                String driverContact = editDriverContact.getText().toString().trim();
-                String vehicleDetails = editVehicleDetails.getText().toString().trim();
-                String licensePlate = editLicensePlate.getText().toString().trim();
-
-                if (driverName.isEmpty() || driverEmail.isEmpty() || driverContact.isEmpty() || vehicleDetails.isEmpty() || licensePlate.isEmpty()) {
-                    Toast.makeText(DriverProfileActivity.this, "Completați toate câmpurile!", Toast.LENGTH_SHORT).show();
-                } else {
-                    DatabaseReference driverRef = databaseRef;
-
-                    driverRef.child("Nume").setValue(driverName);
-                    driverRef.child("Email").setValue(driverEmail);
-                    driverRef.child("Numar de telefon").setValue(driverContact);
-                    driverRef.child("Detalii vehicul").setValue(vehicleDetails);
-                    driverRef.child("Numar inmatriculare").setValue(licensePlate);
-
-                    Toast.makeText(DriverProfileActivity.this, "Profilul șoferului a fost salvat cu succes", Toast.LENGTH_SHORT).show();
-                }
+                saveDriverProfile();
             }
         });
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Activăm modul de editare, câmpurile devin editabile
-                editDriverName.setEnabled(true);
-                editDriverEmail.setEnabled(true);
-                editDriverContact.setEnabled(true);
-                editVehicleDetails.setEnabled(true);
-                editLicensePlate.setEnabled(true);
-                saveDriverProfileButton.setVisibility(View.VISIBLE);
-                editProfileButton.setVisibility(View.GONE);
-                editMode = true;
+                setEditMode(true);
             }
         });
 
         viewMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Deschide DriverMapActivity atunci când butonul este apăsat
-                Intent intent = new Intent(DriverProfileActivity.this, DriverMapActivity.class);
-                startActivity(intent);
+                openDriverMapActivity();
             }
         });
 
         viewReviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementează aici codul pentru a deschide activitatea pentru vizualizarea recenziilor
-                // Exemplu:
-                Intent intent = new Intent(DriverProfileActivity.this, ReviewsActivity.class);
-                startActivity(intent);
+                openReviewsActivity();
             }
         });
+    }
+
+    private void loadDriverProfile(DataSnapshot dataSnapshot) {
+        editDriverName.setText(dataSnapshot.child("Nume").getValue(String.class));
+        editDriverEmail.setText(dataSnapshot.child("Email").getValue(String.class));
+        editDriverContact.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
+        editVehicleDetails.setText(dataSnapshot.child("Detalii vehicul").getValue(String.class));
+        editLicensePlate.setText(dataSnapshot.child("Numar inmatriculare").getValue(String.class));
+    }
+
+    private void saveDriverProfile() {
+        String driverName = editDriverName.getText().toString().trim();
+        String driverEmail = editDriverEmail.getText().toString().trim();
+        String driverContact = editDriverContact.getText().toString().trim();
+        String vehicleDetails = editVehicleDetails.getText().toString().trim();
+        String licensePlate = editLicensePlate.getText().toString().trim();
+
+        if (driverName.isEmpty() || driverEmail.isEmpty() || driverContact.isEmpty() || vehicleDetails.isEmpty() || licensePlate.isEmpty()) {
+            Toast.makeText(DriverProfileActivity.this, "Completați toate câmpurile!", Toast.LENGTH_SHORT).show();
+        } else {
+            DatabaseReference driverRef = databaseRef;
+
+            driverRef.child("Nume").setValue(driverName);
+            driverRef.child("Email").setValue(driverEmail);
+            driverRef.child("Numar de telefon").setValue(driverContact);
+            driverRef.child("Detalii vehicul").setValue(vehicleDetails);
+            driverRef.child("Numar inmatriculare").setValue(licensePlate);
+
+            Toast.makeText(DriverProfileActivity.this, "Profilul șoferului a fost salvat cu succes", Toast.LENGTH_SHORT).show();
+            setEditMode(false);
+        }
+    }
+
+    private void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+
+        // Activează sau dezactivează câmpurile în funcție de modul de editare
+        editDriverName.setEnabled(editMode);
+        editDriverEmail.setEnabled(editMode);
+        editDriverContact.setEnabled(editMode);
+        editVehicleDetails.setEnabled(editMode);
+        editLicensePlate.setEnabled(editMode);
+
+        // Afișează sau ascunde butoanele în funcție de modul de editare
+        if (editMode) {
+            saveDriverProfileButton.setVisibility(View.VISIBLE);
+            editProfileButton.setVisibility(View.GONE);
+        } else {
+            saveDriverProfileButton.setVisibility(View.GONE);
+            editProfileButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void openDriverMapActivity() {
+        Intent intent = new Intent(DriverProfileActivity.this, DriverMapActivity.class);
+        startActivity(intent);
+    }
+
+    private void openReviewsActivity() {
+        Intent intent = new Intent(DriverProfileActivity.this, ReviewsActivity.class);
+        intent.putExtra("driverId", currentUserId);
+        startActivity(intent);
     }
 }

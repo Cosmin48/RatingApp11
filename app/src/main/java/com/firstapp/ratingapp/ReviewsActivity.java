@@ -2,6 +2,7 @@ package com.firstapp.ratingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,10 +27,15 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
     private ReviewsAdapter reviewsAdapter;
     private EditText responseEditText;
     private Button submitResponseButton;
+    private TextView averageRatingTextView;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference reviewsRef;
     private DatabaseReference driverRef;
+    private DatabaseReference userRef;
+
     private String currentUserId;
+    private String driverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +44,25 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
-        driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(currentUserId);
+        reviewsRef = FirebaseDatabase.getInstance().getReference().child("Reviews");
+        driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers");
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers");
 
         recyclerView = findViewById(R.id.recyclerView);
         responseEditText = findViewById(R.id.responseEditText);
         submitResponseButton = findViewById(R.id.submitResponseButton);
+        averageRatingTextView = findViewById(R.id.averageRatingTextView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Inițializează adapterul pentru recenziile șoferului
         reviewsAdapter = new ReviewsAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(reviewsAdapter);
 
-        loadReviews(); // Funcție pentru încărcarea recenziilor din Firebase
+        if (getIntent().hasExtra("driverId")) {
+            driverId = getIntent().getStringExtra("driverId");
+            loadReviews(driverId);
+        }
 
         submitResponseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,34 +72,45 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
         });
     }
 
-    private void loadReviews() {
-        // Descarcă recenziile din Firebase și adaugă-le la adapterul recycler view
-        driverRef.child("Reviews").addValueEventListener(new ValueEventListener() {
+    private void loadReviews(String driverId) {
+        DatabaseReference reviewsNode = driverRef.child(driverId).child("Reviews");
+
+        Log.d("FirebaseData", "DriverId: " + driverId);
+
+        reviewsNode.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("FirebaseData", "DataSnapshot: " + dataSnapshot);
+
                 List<Review> newReviews = new ArrayList<>();
 
                 float totalRating = 0;
                 int reviewCount = 0;
 
                 for (DataSnapshot reviewSnapshot : dataSnapshot.getChildren()) {
-                    Review review = reviewSnapshot.getValue(Review.class);
-                    newReviews.add(review);
+                    Log.d("FirebaseData", "ReviewSnapshot Key: " + reviewSnapshot.getKey());
+                    Log.d("FirebaseData", "ReviewSnapshot Value: " + reviewSnapshot.getValue());
 
-                    // Adună rating-ul pentru calculul mediei
-                    totalRating += review.getRating();
-                    reviewCount++;
+                    if (reviewSnapshot.getValue() instanceof Boolean) {
+                        continue;
+                    }
+
+                    Review review = reviewSnapshot.getValue(Review.class);
+
+                    if (review != null) {
+                        newReviews.add(review);
+                        totalRating += review.getRating();
+                        reviewCount++;
+                    }
                 }
 
-                // Calculul mediei și actualizarea TextView-ului
                 if (reviewCount > 0) {
                     float averageRating = totalRating / reviewCount;
-                    TextView averageRatingTextView = findViewById(R.id.averageRatingTextView);
                     averageRatingTextView.setText("Rating mediu: " + averageRating);
                 }
 
-                reviewsAdapter.setReviews(newReviews); // înlocuiește lista curentă cu cea nouă
-                reviewsAdapter.notifyDataSetChanged(); // Notifică adapterul despre modificări
+                reviewsAdapter.setReviews(newReviews);
+                reviewsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -99,22 +121,27 @@ public class ReviewsActivity extends AppCompatActivity implements ReviewsAdapter
     }
 
 
+
+
+
+
     @Override
     public void onReviewClick(Review review) {
-        // Deschide o nouă activitate pentru vizualizarea și răspunsul la recenzie
         Intent intent = new Intent(ReviewsActivity.this, ReviewDetailsActivity.class);
         intent.putExtra("review", review);
         startActivity(intent);
     }
 
     private void submitResponse() {
-        // Obține textul răspunsului introdus de șofer
         String responseText = responseEditText.getText().toString().trim();
 
-        // Actualizează răspunsul șoferului în Firebase
-        driverRef.child("DriverResponse").setValue(responseText);
+        if (getIntent().hasExtra("driverId")) {
+            driverId = getIntent().getStringExtra("driverId");
 
-        // Resetează câmpul de introducere text și afișează un mesaj de succes
+            DatabaseReference driverResponseRef = driverRef.child(driverId).child("DriverResponse");
+            driverResponseRef.setValue(responseText);
+        }
+
         responseEditText.setText("");
         Toast.makeText(this, "Răspunsul a fost salvat cu succes", Toast.LENGTH_SHORT).show();
     }
