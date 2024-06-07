@@ -1,32 +1,46 @@
-<!-- res/layout/review_item.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/usernameTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/reviewerNameTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="Nume Utilizator" />
+        android:text="Reviewer Name"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/commentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment" />
 
     <TextView
         android:id="@+id/ratingTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:text="Rating" />
 
     <TextView
-        android:id="@+id/reviewTextView"
+        android:id="@+id/responseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Driver Response" />
+
+    <EditText
+        android:id="@+id/driverResponseEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="Comentariu" />
+        android:hint="Add response"
+        android:visibility="gone" />
 
-    <!-- Puteți adăuga mai multe elemente aici, cum ar fi data recenziei, butonul de răspuns etc. -->
+    <Button
+        android:id="@+id/submitResponseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Response"
+        android:visibility="gone" />
 
 </LinearLayout>

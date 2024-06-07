@@ -1,14 +1,15 @@
 package com.firstapp.ratingapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,94 +18,61 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserProfileActivity extends AppCompatActivity {
 
-    private EditText editUsername;
-    private EditText editEmail;
-    private EditText editContact;
-    private Button saveButton;
-    private Button editProfileButton;
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText phoneEditText;
+    private RecyclerView userReviewsRecyclerView;
     private Button selectDriverButton;
-    //private Button reviewDriverButton;
-    private boolean editMode = false;
+    private Button editProfileButton;
+    private Button saveProfileButton;
+    private Button logoutButton;
 
+    private DatabaseReference userRef;
     private FirebaseAuth mAuth;
-    private DatabaseReference databaseRef;
     private String currentUserId;
+    private List<String> driverResponsesList;
+    private ResponsesAdapter responsesAdapter;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        editUsername = findViewById(R.id.editUsername);
-        editEmail = findViewById(R.id.editEmail);
-        editContact = findViewById(R.id.editContact);
-        saveButton = findViewById(R.id.saveButton);
-        editProfileButton = findViewById(R.id.editProfileButton);
+        nameEditText = findViewById(R.id.editTextName);
+        emailEditText = findViewById(R.id.editTextEmail);
+        phoneEditText = findViewById(R.id.editTextPhone);
+        userReviewsRecyclerView = findViewById(R.id.userReviewsRecyclerView);
         selectDriverButton = findViewById(R.id.selectDriverButton);
-        //reviewDriverButton = findViewById(R.id.reviewDriverButton);
+        editProfileButton = findViewById(R.id.editProfileButton);
+        saveProfileButton = findViewById(R.id.saveProfileButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
-        databaseRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(currentUserId);
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(currentUserId);
 
-        if (getIntent().hasExtra("editProfile") && getIntent().getBooleanExtra("editProfile", false)) {
-            editUsername.setEnabled(false);
-            editEmail.setEnabled(false);
-            editContact.setEnabled(false);
-            saveButton.setVisibility(View.GONE);
-            editProfileButton.setVisibility(View.VISIBLE);
-            editMode = true;
-        }
+        driverResponsesList = new ArrayList<>();
+        responsesAdapter = new ResponsesAdapter(driverResponsesList);
 
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userReviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        userReviewsRecyclerView.setAdapter(responsesAdapter);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    editUsername.setText(dataSnapshot.child("Nume").getValue(String.class));
-                    editEmail.setText(dataSnapshot.child("Email").getValue(String.class));
-                    editContact.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
+                    loadUserProfile(dataSnapshot);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(UserProfileActivity.this, "Eroare la încărcarea profilului: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = editUsername.getText().toString().trim();
-                String email = editEmail.getText().toString().trim();
-                String contact = editContact.getText().toString().trim();
-
-                if (username.isEmpty() || email.isEmpty() || contact.isEmpty()) {
-                    Toast.makeText(UserProfileActivity.this, "Completați toate câmpurile!", Toast.LENGTH_SHORT).show();
-                } else {
-                    DatabaseReference userRef = databaseRef;
-
-                    userRef.child("Nume").setValue(username);
-                    userRef.child("Email").setValue(email);
-                    userRef.child("Numar de telefon").setValue(contact);
-
-                    Toast.makeText(UserProfileActivity.this, "Profilul utilizatorului a fost salvat cu succes", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editUsername.setEnabled(true);
-                editEmail.setEnabled(true);
-                editContact.setEnabled(true);
-                saveButton.setVisibility(View.VISIBLE);
-                editProfileButton.setVisibility(View.GONE);
-                editMode = true;
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle possible errors.
             }
         });
 
@@ -116,13 +84,68 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-       // reviewDriverButton.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-          //  public void onClick(View v) {
-               // Intent intent = new Intent(UserProfileActivity.this, ReviewDriverActivity.class);
-                //startActivity(intent);
-          //  }
-       // });
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableEditProfile(true);
+            }
+        });
 
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveUserProfile();
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void loadUserProfile(DataSnapshot dataSnapshot) {
+        nameEditText.setText(dataSnapshot.child("Nume").getValue(String.class));
+        emailEditText.setText(dataSnapshot.child("Email").getValue(String.class));
+        phoneEditText.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
+
+        // Load driver responses from reviews
+        driverResponsesList.clear();
+        for (DataSnapshot reviewSnapshot : dataSnapshot.child("Reviews").getChildren()) {
+            String driverResponse = reviewSnapshot.child("driverResponse").getValue(String.class);
+            if (driverResponse != null && !driverResponse.isEmpty()) {
+                driverResponsesList.add(driverResponse);
+            }
+        }
+        responsesAdapter.notifyDataSetChanged();
+    }
+
+    private void enableEditProfile(boolean enable) {
+        nameEditText.setEnabled(enable);
+        emailEditText.setEnabled(enable);
+        phoneEditText.setEnabled(enable);
+        saveProfileButton.setVisibility(enable ? View.VISIBLE : View.GONE);
+        editProfileButton.setVisibility(enable ? View.GONE : View.VISIBLE);
+    }
+
+    private void saveUserProfile() {
+        String name = nameEditText.getText().toString().trim();
+        String email = emailEditText.getText().toString().trim();
+        String phone = phoneEditText.getText().toString().trim();
+
+        if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            // Handle validation error
+            return;
+        }
+
+        userRef.child("Nume").setValue(name);
+        userRef.child("Email").setValue(email);
+        userRef.child("Numar de telefon").setValue(phone);
+        enableEditProfile(false);
     }
 }

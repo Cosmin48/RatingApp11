@@ -1,18 +1,26 @@
 package com.firstapp.ratingapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverProfileActivity extends AppCompatActivity {
 
@@ -25,11 +33,14 @@ public class DriverProfileActivity extends AppCompatActivity {
     private Button editProfileButton;
     private Button viewMapButton;
     private Button viewReviewsButton;
+    private Button logoutButton;
+    private RecyclerView reviewsRecyclerView;
+    private ReviewsAdapter reviewsAdapter;
+    private List<Review> reviewList;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseRef;
     private String currentUserId;
-
     private boolean editMode = false;
 
     @Override
@@ -46,6 +57,13 @@ public class DriverProfileActivity extends AppCompatActivity {
         editProfileButton = findViewById(R.id.editProfileButton);
         viewMapButton = findViewById(R.id.viewMapButton);
         viewReviewsButton = findViewById(R.id.viewReviewsButton);
+        logoutButton = findViewById(R.id.logoutButton);
+        reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
+
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reviewList = new ArrayList<>();
+        reviewsAdapter = new ReviewsAdapter(reviewList, this, "driver");
+        reviewsRecyclerView.setAdapter(reviewsAdapter);
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -60,6 +78,7 @@ public class DriverProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     loadDriverProfile(dataSnapshot);
+                    loadReviews();
                 }
             }
 
@@ -93,7 +112,19 @@ public class DriverProfileActivity extends AppCompatActivity {
         viewReviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openReviewsActivity();
+                Intent intent = new Intent(DriverProfileActivity.this, ReviewsActivity.class);
+                intent.putExtra("driverId", currentUserId);
+                startActivity(intent);
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(DriverProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -104,6 +135,28 @@ public class DriverProfileActivity extends AppCompatActivity {
         editDriverContact.setText(dataSnapshot.child("Numar de telefon").getValue(String.class));
         editVehicleDetails.setText(dataSnapshot.child("Detalii vehicul").getValue(String.class));
         editLicensePlate.setText(dataSnapshot.child("Numar inmatriculare").getValue(String.class));
+    }
+
+    private void loadReviews() {
+        DatabaseReference reviewsRef = databaseRef.child("Reviews");
+        reviewsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                reviewList.clear();
+                for (DataSnapshot reviewSnapshot : snapshot.getChildren()) {
+                    Review review = reviewSnapshot.getValue(Review.class);
+                    if (review != null) {
+                        reviewList.add(review);
+                    }
+                }
+                reviewsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DriverProfileActivity.this, "Eroare la încărcarea recenziilor", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void saveDriverProfile() {
@@ -151,12 +204,6 @@ public class DriverProfileActivity extends AppCompatActivity {
 
     private void openDriverMapActivity() {
         Intent intent = new Intent(DriverProfileActivity.this, DriverMapActivity.class);
-        startActivity(intent);
-    }
-
-    private void openReviewsActivity() {
-        Intent intent = new Intent(DriverProfileActivity.this, ReviewsActivity.class);
-        intent.putExtra("driverId", currentUserId);
         startActivity(intent);
     }
 }

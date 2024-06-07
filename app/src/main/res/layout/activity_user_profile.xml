@@ -1,75 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:ignore="ExtraText">
+    tools:context=".UserProfileActivity">
 
-    <!-- Imaginea de profil -->
-
-
-
-
-
-    <!-- Câmpul pentru nume -->
-    <EditText
-        android:id="@+id/editUsername"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Nume Utilizator"
-        android:minHeight="48dp" />
+        android:orientation="vertical">
 
-    <!-- Câmpul pentru adresa de email -->
-    <EditText
-        android:id="@+id/editEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editUsername"
-        android:layout_marginTop="8dp"
-        android:hint="Adresa de Email"
-        android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nume"
+            android:enabled="false"
+            android:layout_marginTop="16dp" />
 
-    <!-- Câmp pentru datele de contact (poate fi un EditText pentru numărul de telefon) -->
-    <EditText
-        android:id="@+id/editContact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editEmail"
-        android:layout_marginTop="8dp"
-        android:hint="Număr de Telefon"
-        android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adresa de Email"
+            android:enabled="false"
+            android:layout_below="@id/editTextName"
+            android:layout_marginTop="8dp" />
 
-    <!-- Buton pentru Selectare șofer -->
-    <Button
-        android:id="@+id/selectDriverButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selectează șofer"
-        android:layout_below="@id/editContact"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/editTextPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Număr de Telefon"
+            android:enabled="false"
+            android:layout_below="@id/editTextEmail"
+            android:layout_marginTop="8dp" />
 
-    <!-- Buton pentru Editare -->
-    <Button
-        android:id="@+id/editProfileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Editare Profil"
-        android:layout_below="@id/selectDriverButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/responseLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Răspunsurile Șoferului"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
 
-    <!-- Buton de Salvare -->
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Salvează Profilul"
-        android:layout_below="@id/editProfileButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userReviewsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/selectDriverButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selectează Șofer"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/editProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editare Profil"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/saveProfileButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salvează Profilul"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>

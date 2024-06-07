@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ReviewsActivity">
 
-    <!-- TextView pentru afișarea rating-ului mediu -->
     <TextView
-
         android:id="@+id/averageRatingTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rating mediu: "
-        android:layout_below="@id/reviewsTitle"
-        android:layout_marginTop="8dp"
-        android:textSize="18sp" />
-
-
-    <!-- Titlu sau antet pentru activitatea de recenzii -->
-    <TextView
-        android:id="@+id/reviewsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recenzii"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp" />
-
-    <!-- RecyclerView pentru afișarea recenziilor -->
-
-    <!-- Câmp pentru introducerea răspunsului șoferului -->
+        android:layout_marginBottom="16dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/reviewsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reviewsTitle"
-        android:layout_marginTop="2dp" />
-
-    <EditText
-        android:id="@+id/responseEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerView"
-        android:layout_marginTop="16dp"
-        android:hint="Răspuns șofer"
-        android:minHeight="48dp" />
-
-    <!-- Buton pentru trimiterea răspunsului -->
-    <Button
-        android:id="@+id/submitResponseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trimite Răspuns"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/responseEditText"
-        android:layout_marginTop="16dp" />
-
-    <!-- Adaugă TextView pentru afișarea răspunsului șoferului -->
-    <TextView
-        android:id="@+id/driverResponseTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/submitResponseButton"
-        android:layout_marginTop="16dp"
-        android:text="Răspunsul șoferului: "
-        android:visibility="gone" /> <!-- Inițial ascuns -->
-
+        android:layout_height="match_parent"
+        android:layout_below="@id/averageRatingTextView"
+        android:layout_marginTop="8dp"/>
 
 </RelativeLayout>
