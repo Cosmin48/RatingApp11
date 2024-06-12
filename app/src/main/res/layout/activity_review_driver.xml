@@ -9,7 +9,7 @@
         android:id="@+id/commentEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your comment" />
+        android:hint="Introduceți comentariul dumneavoastră" />
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -22,6 +22,6 @@
         android:id="@+id/submitReviewButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit Review" />
+        android:text="Trimiteți o recenzie" />
 
 </LinearLayout>
