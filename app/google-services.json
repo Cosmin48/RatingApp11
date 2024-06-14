@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "13150951421",
+    "firebase_url": "https://ratingapp-10086-default-rtdb.firebaseio.com",
     "project_id": "ratingapp-10086",
     "storage_bucket": "ratingapp-10086.appspot.com"
   },

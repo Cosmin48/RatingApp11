@@ -21,6 +21,7 @@ public class ReviewDriverActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private Button submitReviewButton;
     private DatabaseReference reviewsRef;
+    private DatabaseReference responsesRef;
     private String driverId;
 
     private static final String TAG = "ReviewDriverActivity";

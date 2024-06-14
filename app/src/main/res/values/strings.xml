@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">RatingApp</string>
-    <string name="title_activity_driver_map">DriverMapActivity</string>
+    <string name="driverButton">I\'m a Driver</string>
+    <string name="customerButton">I\'m a User</string>
+    <string name="loginButton">Login</string>
+    <string name="registrationButton">Registration</string>
+    <string name="msg_token_fmt">FCM Token: %1$s</string>
+    <string name="title_activity_driver_map">Driver Map</string>
+        <!-- Alte stringuri deja existente -->
+
+
 </resources>
